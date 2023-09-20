@@ -4,7 +4,6 @@ import {useEffect} from 'react';
 const Edittasks = ({
   id,
   onEdit2,
-  newData,
   setText,
   setTime,
   setDate,
@@ -17,15 +16,6 @@ const Edittasks = ({
   setReminder,
   showTask
 }) => {
-  // const [Data, setData] = useState('')
-  console.log('edittasks    hghgh', newData);
-  useEffect(
-    (id) => {
-      setEdit();
-    },
-    [id]
-  );
-
   const onSubmit = (e) => {
     if (!text) {
       alert('Please add a task');
@@ -33,23 +23,10 @@ const Edittasks = ({
     }
 
     onEdit2({text, Date, time, Description, Reminder, showTask});
-    //  setText('')
-    //  setDate('')
-    //  setTime('')
-    //  setDescription('')
-    //  setReminder(false)
-  };
-  const setEdit = (newData) => {
-    //  console.log(newData.id,"here")
-    //  setText(newData.text)
-    //  setDate(newData.Date)
-    //  setTime(newData.time)
-    //  setDescription(newData.Description)
   };
 
   return (
     <React.Fragment>
-      {/* {newData && */}
       <form className="add-form" onSubmit={onSubmit}>
         <div className="form-control">
           <label>Task</label>

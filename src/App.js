@@ -25,7 +25,6 @@ function App() {
     const getTasks = async () => {
       const taskFromSever = await fetchTasks();
       settasks(taskFromSever);
-      //  console.log("eweewe",newData);
     };
 
     getTasks();
@@ -57,16 +56,10 @@ function App() {
     });
     const data = await res.json();
     settasks([...tasks, data]);
-
-    //  const id=Math.floor(Math.random() * 10000)+1;
-    //  const newTask = {id,...task}
-    //  settasks([...tasks,newTask])
   };
 
   const getEdit = async (task) => {
     const taskToEdit = await fetchTask(myId);
-    // const  udpTask= {...task.data}
-    // console.log(udpTask)
     const res = await fetch(`http://localhost:5000/tasks/${myId}`, {
       method: 'PUT',
       headers: {'Content-type': 'application/json'},

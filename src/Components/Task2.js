@@ -26,11 +26,8 @@ const Task2 = ({
   Description,
   setReminder
 }) => {
-  // console.log("task 2 ---", newData);
   const location = useLocation();
 
-  // console.log("task 2 ", showAddTask1)
-  // const [showAddTask, setshowAddTask] = useState(false)
   return (
     <>
       <div className={`task ${!task.reminder ? 'reminder' : ''}`} onClick={() => onToggle(task.id)}>

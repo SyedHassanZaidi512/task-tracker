@@ -1,35 +1,14 @@
 import React from 'react';
 import {useState} from 'react';
 import moment from 'moment';
-import {useEffect} from 'react';
-// import useLocation from 'react-router-dom'
-const Addtask = ({onAdd, editData}) => {
-  // const address=useLocation()
-  // console.log("newdata",editData)
 
+const Addtask = ({onAdd, editData}) => {
   const [showTask, setshowTask] = useState(false);
   const [text, settext] = useState('');
   const [Date, setDate] = useState(moment().format('MMM Do YY'));
   const [time, setTime] = useState(moment().format('h:mm:ss a'));
   const [Description, setDescription] = useState('');
   const [Reminder, setReminder] = useState(false);
-
-  // const editdata=()=>
-  // {
-
-  //   setDate(editData.Date)
-  //   console.log("printing date",Date)
-  //   settext(editData.text)
-  //   setTime(editData.time)
-  //   setReminder(editData.reminder)
-  //   // onAdd({text,Date,time,Description,Reminder})
-
-  // }
-
-  console.log(editData, 'lo pakro');
-  // useEffect(() => {
-  //   editdata()
-  // }, [editdata])
 
   const onSubmit = (e) => {
     e.preventDefault();

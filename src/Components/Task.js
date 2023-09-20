@@ -22,12 +22,8 @@ const Task = ({
   Reminder,
   setReminder
 }) => {
-  // console.log(newData,"task")
-  //  console.log("helllllllooooooo",newData);
-  // const location=useLocation()
   return (
     <>
-      {/* {console.log("this task",tasks)} */}
       {tasks.map((task, index) => (
         <Task2
           key={index}

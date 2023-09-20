@@ -13,5 +13,3 @@ Header.defaultProps = {
 };
 
 export default Header;
-
-// style={{backgroundColor:"black",color:"red"}}
