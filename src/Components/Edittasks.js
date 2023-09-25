@@ -1,33 +1,54 @@
-import React from 'react';
-import {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import moment from 'moment';
 
-const Edittasks = ({
-  id,
-  onEdit2,
-  setText,
-  setTime,
-  setDate,
-  setDescription,
-  text,
-  Date,
-  time,
-  Reminder,
-  Description,
-  setReminder,
-  showTask
-}) => {
-  const onSubmit = (e) => {
-    if (!text) {
-      alert('Please add a task');
-      return;
+const Edittasks = ({editTaskId, fetchTask, fetchTasks}) => {
+  const [text, setText] = useState();
+  const [date, setDate] = useState(moment().format('MMM Do YY'));
+  const [time, setTime] = useState(moment().format('h:mm:ss a'));
+  const [description, setDescription] = useState('');
+  const [reminder, setReminder] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const taskData = {id: editTaskId, text, date, time, description, reminder};
+      await fetch(`http://localhost:5000/tasks/${editTaskId}`, {
+        method: 'PUT',
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify(taskData)
+      });
+      fetchTasks();
+      navigate('/');
+    } catch (error) {
+      console.log('error', error);
     }
-
-    onEdit2({text, Date, time, Description, Reminder, showTask});
   };
+
+  const setFileds = async () => {
+    try {
+      const task = await fetchTask(editTaskId);
+      setText(task.text);
+      setDate(task.date);
+      setTime(task.time);
+      setDescription(task.description);
+      setReminder(task.reminder);
+    } catch (error) {
+      console.log('error:', error);
+    }
+  };
+
+  useEffect(() => {
+    setFileds();
+  }, []);
+
+  console.log('reminder', reminder);
 
   return (
     <React.Fragment>
-      <form className="add-form" onSubmit={onSubmit}>
+      <form className="add-form" onSubmit={handleSubmit}>
         <div className="form-control">
           <label>Task</label>
           <input type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder={text} />
@@ -35,7 +56,7 @@ const Edittasks = ({
 
         <div className="form-control">
           <label>Date</label>
-          <input type="text" placeholder={Date} value={Date} onChange={(e) => setDate(e.target.value)} />
+          <input type="text" placeholder={date} value={date} onChange={(e) => setDate(e.target.value)} />
         </div>
 
         <div className="form-control">
@@ -47,15 +68,15 @@ const Edittasks = ({
           <label>Descrption</label>
           <input
             type="text"
-            placeholder={Description}
-            value={Description}
+            placeholder={description}
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
 
         <div className="form-control form-control-check">
           <label>Set Reminder</label>
-          <input type="checkbox" value={Reminder} onChange={(e) => setReminder(e.currentTarget.checked)} />
+          <input type="checkbox" checked={reminder} onChange={(e) => setReminder(e.currentTarget.checked)} />
         </div>
         <input type="submit" value="Save Task" className="btn btn-block" />
       </form>

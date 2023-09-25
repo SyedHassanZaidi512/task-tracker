@@ -2,26 +2,7 @@ import Task2 from './Task2';
 // import Button from "./Button"
 // import { useLocation } from "react-router"
 
-const Task = ({
-  tasks,
-  onDelete,
-  onToggle,
-  onEdit,
-  onEdit2,
-  showTask,
-  newData,
-  myid,
-  setText,
-  setTime,
-  setDate,
-  setDescription,
-  text,
-  time,
-  Date,
-  Description,
-  Reminder,
-  setReminder
-}) => {
+const Task = ({tasks, onDelete, onToggle, onEdit, setEditTaskId}) => {
   return (
     <>
       {tasks.map((task, index) => (
@@ -30,21 +11,8 @@ const Task = ({
           task={task}
           onDelete={onDelete}
           onToggle={onToggle}
-          onEdit2={onEdit2}
           onEdit={onEdit}
-          showTask={showTask}
-          newData={newData}
-          myid={myid}
-          setText={setText}
-          setTime={setTime}
-          setDate={setDate}
-          setDescription={setDescription}
-          text={text}
-          Date={Date}
-          Reminder={Reminder}
-          setReminder={setReminder}
-          time={time}
-          Description={Description}
+          setEditTaskId={setEditTaskId}
         />
       ))}
     </>

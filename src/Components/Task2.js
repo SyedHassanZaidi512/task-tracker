@@ -1,72 +1,26 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
-import {FaTimes} from 'react-icons/fa';
-import {Link} from 'react-router-dom';
-import {useLocation} from 'react-router';
-import Button from './Button';
-import Edittasks from './Edittasks';
+import {FaTimes, FaEdit} from 'react-icons/fa';
+import {useNavigate} from 'react-router-dom';
 
-const Task2 = ({
-  task,
-  onDelete,
-  onToggle,
-  onEdit2,
-  onEdit,
-  showTask,
-  newData,
-  myid,
-  setText,
-  setTime,
-  setDate,
-  setDescription,
-  text,
-  Date,
-  time,
-  Reminder,
-  Description,
-  setReminder
-}) => {
-  const location = useLocation();
+const Task2 = ({task, onDelete, setEditTaskId, onToggle}) => {
+  const navigate = useNavigate();
+
+  const handleEdit = () => {
+    setEditTaskId(task.id);
+    navigate('edittask');
+  };
 
   return (
-    <>
-      <div className={`task ${!task.reminder ? 'reminder' : ''}`} onClick={() => onToggle(task.id)}>
-        {location.pathname === '/task' && <Button color="Black" text="Edit" onClick={() => onEdit(task.id)} />}
-        {location.pathname === '/task' && task.id === myid && (
-          <Edittasks
-            onEdit2={onEdit2}
-            newData={newData}
-            text={text}
-            setText={setText}
-            setTime={setTime}
-            setDate={setDate}
-            setDescription={setDescription}
-            Date={Date}
-            time={time}
-            Reminder={Reminder}
-            Description={Description}
-            setReminder={setReminder}
-            showTask={showTask}
-          />
-        )}
-
-        <h3>
-          <Link to="/task">{task.text} </Link>{' '}
-        </h3>
-
-        <p>
-          <Link to="/task">{task.Date} </Link>{' '}
-        </p>
-
-        <p>
-          <Link to="/task">{task.time} </Link>{' '}
-        </p>
-
+    <div>
+      <FaEdit style={{color: 'black'}} onClick={handleEdit} cursor="pointer" />
+      <div className={`task ${task.reminder ? 'reminder' : ''}`} onClick={() => onToggle(task.id)}>
+        <h3>{task.text}</h3>
+        <p>{task.Date}</p>
+        <p>{task.time}</p>
         <p>{task.Description}</p>
       </div>
-
       <FaTimes style={{color: 'red'}} onClick={() => onDelete(task.id)} />
-    </>
+    </div>
   );
 };
 
