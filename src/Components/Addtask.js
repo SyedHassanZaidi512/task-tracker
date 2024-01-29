@@ -2,7 +2,7 @@ import React from 'react';
 import {useState} from 'react';
 import moment from 'moment';
 
-const Addtask = ({onAdd}) => {
+const AddTask = ({onAdd}) => {
   const [text, settext] = useState('');
   const [date, setDate] = useState(moment().format('MMM Do YY'));
   const [time, setTime] = useState(moment().format('h:mm:ss a'));
@@ -57,4 +57,4 @@ const Addtask = ({onAdd}) => {
   );
 };
 
-export default Addtask;
+export default AddTask;

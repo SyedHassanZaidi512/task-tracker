@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import moment from 'moment';
 
-const Edittasks = ({editTaskId, fetchTask, fetchTasks}) => {
+const EditTasks = ({editTaskId, fetchTask, fetchTasks}) => {
   const [text, setText] = useState();
   const [date, setDate] = useState(moment().format('MMM Do YY'));
   const [time, setTime] = useState(moment().format('h:mm:ss a'));
@@ -15,7 +15,7 @@ const Edittasks = ({editTaskId, fetchTask, fetchTasks}) => {
     e.preventDefault();
     try {
       const taskData = {id: editTaskId, text, date, time, description, reminder};
-      await fetch(`http://localhost:5000/tasks/${editTaskId}`, {
+      await fetch(`${process.env.apiBaseUrl}/${editTaskId}`, {
         method: 'PUT',
         headers: {'Content-type': 'application/json'},
         body: JSON.stringify(taskData)
@@ -84,4 +84,4 @@ const Edittasks = ({editTaskId, fetchTask, fetchTasks}) => {
   );
 };
 
-export default Edittasks;
+export default EditTasks;

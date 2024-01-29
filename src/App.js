@@ -5,10 +5,10 @@ import './App.css';
 
 import Header from './Components/Header';
 import Task from './Components/Task';
-import Addtask from './Components/Addtask';
+import AddTask from './Components/AddTask';
 import Footer from './Components/Footer';
 import Button from './Components/Button.js';
-import Edittasks from './Components/Edittasks';
+import EditTasks from './Components/EditTasks';
 import About from './Components/About';
 
 function App() {
@@ -18,8 +18,10 @@ function App() {
 
   const fetchTasks = async () => {
     try {
-      const res = await fetch('http://localhost:5000/tasks');
+      console.log('env', process.env);
+      const res = await fetch(`http://localhost:5000/tasks`);
       const tasksData = await res.json();
+      console.log('tasksData', res);
       settasks(tasksData);
     } catch (error) {
       console.log(error);
@@ -28,7 +30,7 @@ function App() {
 
   const fetchTask = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/tasks/${id}`);
+      const res = await fetch(`${process.env.apiBaseUrl}/${id}`);
       const data = await res.json();
       return data;
     } catch (error) {
@@ -38,7 +40,7 @@ function App() {
 
   const Addtaskfunc = async (task) => {
     try {
-      const res = await fetch(`http://localhost:5000/tasks`, {
+      const res = await fetch(process.env.apiBaseUrl, {
         method: 'POST',
         headers: {'Content-type': 'application/json'},
         body: JSON.stringify(task)
@@ -52,7 +54,7 @@ function App() {
 
   const deleteTask = async (id) => {
     try {
-      await fetch(`http://localhost:5000/tasks/${id}`, {method: 'DELETE'});
+      await fetch(`${process.env.apiBaseUrl}/${id}`, {method: 'DELETE'});
       fetchTasks();
     } catch (error) {
       console.log('error', error);
@@ -63,7 +65,7 @@ function App() {
     try {
       const taskToToggle = await fetchTask(id);
       const udpTask = {...taskToToggle, reminder: !taskToToggle.reminder};
-      await fetch(`http://localhost:5000/tasks/${id}`, {
+      await fetch(`${process.env.APP_ENV}${id}`, {
         method: 'PUT',
         headers: {'Content-type': 'application/json'},
         body: JSON.stringify(udpTask)
@@ -92,7 +94,7 @@ function App() {
                 onClick={() => setshowAddTask(!showAddTask)}
               />
 
-              {showAddTask && <Addtask onAdd={Addtaskfunc} />}
+              {showAddTask && <AddTask onAdd={Addtaskfunc} />}
               {tasks.length > 0 ? (
                 <Task
                   tasks={tasks}
@@ -109,7 +111,7 @@ function App() {
         />
         <Route
           path="/edittask"
-          element={<Edittasks editTaskId={editTaskId} fetchTask={fetchTask} fetchTasks={fetchTasks} />}
+          element={<EditTasks editTaskId={editTaskId} fetchTask={fetchTask} fetchTasks={fetchTasks} />}
         />
         <Route path="/about" element={<About />} />
       </Routes>
