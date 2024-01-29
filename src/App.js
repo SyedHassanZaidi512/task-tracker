@@ -12,17 +12,18 @@ import EditTasks from './Components/EditTasks';
 import About from './Components/About';
 
 function App() {
-  const [showAddTask, setshowAddTask] = useState(false);
-  const [tasks, settasks] = useState([]);
+  const [showAddTask, setShowAddTask] = useState(false);
+  const [tasks, setTasks] = useState([]);
   const [editTaskId, setEditTaskId] = useState('');
+
+  const apiBaseUrl = 'http://localhost:5000/tasks';
 
   const fetchTasks = async () => {
     try {
-      console.log('env', process.env);
       const res = await fetch(`http://localhost:5000/tasks`);
       const tasksData = await res.json();
       console.log('tasksData', res);
-      settasks(tasksData);
+      setTasks(tasksData);
     } catch (error) {
       console.log(error);
     }
@@ -30,7 +31,7 @@ function App() {
 
   const fetchTask = async (id) => {
     try {
-      const res = await fetch(`${process.env.apiBaseUrl}/${id}`);
+      const res = await fetch(`${apiBaseUrl}/${id}`);
       const data = await res.json();
       return data;
     } catch (error) {
@@ -38,15 +39,16 @@ function App() {
     }
   };
 
-  const Addtaskfunc = async (task) => {
+  const addTaskFunc = async (task) => {
     try {
-      const res = await fetch(process.env.apiBaseUrl, {
+      const res = await fetch(apiBaseUrl, {
         method: 'POST',
         headers: {'Content-type': 'application/json'},
         body: JSON.stringify(task)
       });
       const data = await res.json();
-      settasks([...tasks, data]);
+      setTasks([...tasks, data]);
+      setShowAddTask(false);
     } catch (error) {
       console.log('error', error);
     }
@@ -54,7 +56,7 @@ function App() {
 
   const deleteTask = async (id) => {
     try {
-      await fetch(`${process.env.apiBaseUrl}/${id}`, {method: 'DELETE'});
+      await fetch(`${apiBaseUrl}/${id}`, {method: 'DELETE'});
       fetchTasks();
     } catch (error) {
       console.log('error', error);
@@ -65,7 +67,7 @@ function App() {
     try {
       const taskToToggle = await fetchTask(id);
       const udpTask = {...taskToToggle, reminder: !taskToToggle.reminder};
-      await fetch(`${process.env.APP_ENV}${id}`, {
+      await fetch(`${apiBaseUrl}${id}`, {
         method: 'PUT',
         headers: {'Content-type': 'application/json'},
         body: JSON.stringify(udpTask)
@@ -91,10 +93,10 @@ function App() {
               <Button
                 color={showAddTask ? 'red' : 'green'}
                 text={showAddTask ? 'close' : 'Add'}
-                onClick={() => setshowAddTask(!showAddTask)}
+                onClick={() => setShowAddTask(!showAddTask)}
               />
 
-              {showAddTask && <AddTask onAdd={Addtaskfunc} />}
+              {showAddTask && <AddTask onAdd={addTaskFunc} />}
               {tasks.length > 0 ? (
                 <Task
                   tasks={tasks}

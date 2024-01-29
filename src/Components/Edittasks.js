@@ -11,11 +11,13 @@ const EditTasks = ({editTaskId, fetchTask, fetchTasks}) => {
 
   const navigate = useNavigate();
 
+  const apiBaseUrl = 'http://localhost:5000/tasks';
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const taskData = {id: editTaskId, text, date, time, description, reminder};
-      await fetch(`${process.env.apiBaseUrl}/${editTaskId}`, {
+      await fetch(`${apiBaseUrl}/${editTaskId}`, {
         method: 'PUT',
         headers: {'Content-type': 'application/json'},
         body: JSON.stringify(taskData)
@@ -27,7 +29,7 @@ const EditTasks = ({editTaskId, fetchTask, fetchTasks}) => {
     }
   };
 
-  const setFileds = async () => {
+  const setFields = async () => {
     try {
       const task = await fetchTask(editTaskId);
       setText(task.text);
@@ -41,10 +43,8 @@ const EditTasks = ({editTaskId, fetchTask, fetchTasks}) => {
   };
 
   useEffect(() => {
-    setFileds();
+    setFields();
   }, []);
-
-  console.log('reminder', reminder);
 
   return (
     <React.Fragment>
